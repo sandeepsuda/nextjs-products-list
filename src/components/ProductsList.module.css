@@ -1,0 +1,147 @@
+.card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.headerRow {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.th {
+  text-align: left;
+  padding: 1rem 1.25rem;
+  font-weight: 600;
+  color: #4A4A4A;
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.right {
+  text-align: right;
+}
+
+.row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  transition: background 0.15s ease;
+}
+
+.row:hover {
+  background: rgba(252, 228, 214, 0.25);
+}
+
+.td {
+  padding: 0.875rem 1.25rem;
+  color: #4A4A4A;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Skeleton */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.skeletonCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeletonLine {
+  height: 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 3rem 1.5rem;
+  color: #AAAAAA;
+}
+
+.emptyTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #4A4A4A;
+  margin-top: 1rem;
+}
+
+.emptyText {
+  font-size: 0.875rem;
+  color: #888888;
+  margin-top: 0.25rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.pageBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 36px;
+  padding: 0 1rem;
+  border-radius: 9999px;
+  border: 1.5px solid #CCCCCC;
+  background: #FFFFFF;
+  color: #4A4A4A;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: #F5D0C5;
+  background: #FFF5ED;
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  font-size: 0.8125rem;
+  color: #888888;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .th,
+  .td {
+    padding: 0.75rem 0.75rem;
+  }
+}

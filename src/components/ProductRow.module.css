@@ -1,0 +1,120 @@
+.row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  transition: background 0.15s ease;
+}
+
+.row:hover {
+  background: rgba(252, 228, 214, 0.25);
+}
+
+.td {
+  padding: 0.875rem 1.25rem;
+  color: #4A4A4A;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.right {
+  text-align: right;
+}
+
+.productCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FCE4D6;
+  color: #8B5A3C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+.category {
+  font-size: 0.875rem;
+  color: #888888;
+}
+
+.quantity {
+  font-size: 0.9375rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.low {
+  background: rgba(239, 68, 68, 0.08);
+  color: #DC2626;
+}
+
+.med {
+  background: rgba(217, 119, 6, 0.08);
+  color: #D97706;
+}
+
+.high {
+  background: rgba(22, 163, 74, 0.08);
+  color: #16A34A;
+}
+
+.price {
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.375rem;
+}
+
+.iconBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #888888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.iconBtn:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #4A4A4A;
+}
+
+.danger:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #DC2626;
+}
+
+@media (max-width: 768px) {
+  .td {
+    padding: 0.75rem 0.75rem;
+  }
+}
