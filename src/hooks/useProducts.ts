@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import type { ProductData } from "@/lib/types";
 
 interface UseProductsParams {
@@ -35,9 +35,13 @@ const useProducts = (params: UseProductsParams = {}): UseProductsResult => {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const previousProductsRef = useRef<ProductData[]>([]);
 
   const deleteProduct = useCallback((id: string) => {
-    setProducts((currentProducts) => currentProducts.filter((p) => p.id !== id));
+    setProducts((currentProducts) => {
+      previousProductsRef.current = currentProducts;
+      return currentProducts.filter((p) => p.id !== id);
+    });
 
     fetch(`/api/products/${id}`, { method: "DELETE", credentials: "include" })
       .then((res) => {
@@ -45,7 +49,7 @@ const useProducts = (params: UseProductsParams = {}): UseProductsResult => {
       })
       .catch((err) => {
         console.error("Delete error:", err);
-        window.location.reload();
+        setProducts(previousProductsRef.current);
       });
   }, []);
 

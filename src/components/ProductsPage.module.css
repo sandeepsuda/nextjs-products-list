@@ -97,7 +97,6 @@
   color: #4A4A4A;
   font-size: 0.9375rem;
   font-family: inherit;
-  outline: none;
   transition: border-color 0.2s ease;
 }
 
@@ -105,8 +104,10 @@
   color: #AAAAAA;
 }
 
-.searchInput:focus {
-  border-color: #F5D0C5;
+.searchInput:focus-visible {
+  border-color: #8B5A3C;
+  outline: 2px solid #8B5A3C;
+  outline-offset: 2px;
 }
 
 .dropdownGroup {

@@ -34,6 +34,8 @@ export default function DashboardShell({ username, children }: DashboardShellPro
               className={styles.profileBtn}
               onClick={() => setIsOpen((prev) => !prev)}
               aria-label="User menu"
+              aria-haspopup="menu"
+              aria-expanded={isOpen}
             >
               <UserIcon />
             </button>

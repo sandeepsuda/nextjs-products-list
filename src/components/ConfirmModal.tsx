@@ -27,10 +27,21 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="confirm-modal-title"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.header}>
-          <h3 className={styles.title}>{title}</h3>
-          <button className={styles.closeBtn} onClick={onClose}>
+          <h3 id="confirm-modal-title" className={styles.title}>{title}</h3>
+          <button
+            type="button"
+            aria-label="Close dialog"
+            className={styles.closeBtn}
+            onClick={onClose}
+          >
             <CloseIcon size={20} />
           </button>
         </div>

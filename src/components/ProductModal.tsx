@@ -49,15 +49,15 @@ const ProductModal: React.FC<ProductModalProps> = ({
     e.preventDefault();
     setError(null);
 
-    const qty = parseInt(quantity, 10);
+    const qty = Number(quantity);
     const prc = parseFloat(price);
 
     if (!name.trim() || !category.trim()) {
       setError("Name and category are required.");
       return;
     }
-    if (Number.isNaN(qty) || qty < 0) {
-      setError("Quantity must be a non-negative number.");
+    if (!Number.isInteger(qty) || qty < 0) {
+      setError("Quantity must be a non-negative whole number.");
       return;
     }
     if (Number.isNaN(prc) || prc < 0) {
@@ -89,8 +89,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
 
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.field}>
-            <label className={styles.label}>Name</label>
+            <label htmlFor="product-name" className={styles.label}>Name</label>
             <input
+             id="product-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
@@ -101,8 +102,9 @@ const ProductModal: React.FC<ProductModalProps> = ({
           </div>
 
           <div className={styles.field}>
-            <label className={styles.label}>Category</label>
+            <label htmlFor="product-category" className={styles.label}>Category</label>
             <input
+              id="product-category"
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -114,20 +116,23 @@ const ProductModal: React.FC<ProductModalProps> = ({
 
           <div className={styles.row}>
             <div className={styles.field}>
-              <label className={styles.label}>Quantity</label>
+              <label htmlFor="product-quantity" className={styles.label}>Quantity</label>
               <input
+                id="product-quantity"
                 type="number"
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
                 className={styles.input}
                 placeholder="0"
                 min={0}
+                step={1}
                 required
               />
             </div>
             <div className={styles.field}>
-              <label className={styles.label}>Price</label>
+              <label htmlFor="product-price" className={styles.label}>Price</label>
               <input
+               id="product-price"
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}

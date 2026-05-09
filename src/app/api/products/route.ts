@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
     const sort = searchParams.get("sort");
     const order = searchParams.get("order");
 
-    let query: Record<string, any> = {};
+    const query: Record<string, any> = {};
 
     if (search) {
       const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -27,15 +27,20 @@ export async function GET(request: NextRequest) {
 
     if (status === "low-stock") {
       query.quantity = { $lt: 15 };
+    } else if (status === "medium-stock") {
+      query.quantity = { $gte: 15, $lte: 30 };
     } else if (status === "in-stock") {
       query.quantity = { $gte: 30 };
     }
 
     let productQuery = Product.find(query);
 
-    if (sort) {
+    const allowedSortFields = ["name", "category", "quantity", "price"];
+    const sortField = sort && allowedSortFields.includes(sort) ? sort : undefined;
+
+    if (sortField) {
       const sortOrder = order === "desc" ? -1 : 1;
-      productQuery = productQuery.sort({ [sort]: sortOrder });
+      productQuery = productQuery.sort({ [sortField]: sortOrder });
     }
 
     const products = await productQuery.lean();

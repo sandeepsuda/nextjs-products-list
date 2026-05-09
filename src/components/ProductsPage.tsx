@@ -99,6 +99,7 @@ const ProductsPage: React.FC = () => {
             </span>
             <input
               type="text"
+              aria-label="Search products by name or category"
               placeholder="Search by name or category..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -112,6 +113,9 @@ const ProductsPage: React.FC = () => {
                 className={styles.dropdownTrigger}
                 onClick={() => setIsFilterOpen((prev) => !prev)}
                 aria-label="Filter"
+                aria-expanded={isFilterOpen}
+                aria-haspopup="menu"
+                aria-controls="filter-menu"
               >
                 <span className={styles.dropdownTriggerLabel}>
                   {filterOption === "all" && "All Status"}
@@ -121,7 +125,7 @@ const ProductsPage: React.FC = () => {
                 <ChevronDownIcon size={14} />
               </button>
               {isFilterOpen && (
-                <div className={styles.dropdownMenu}>
+                <div id="filter-menu" className={styles.dropdownMenu} role="menu">
                   <button
                     className={`${styles.dropdownItem} ${filterOption === "all" ? styles.dropdownItemActive : ""}`}
                     onClick={() => { setFilterOption("all"); setIsFilterOpen(false); }}
@@ -149,6 +153,9 @@ const ProductsPage: React.FC = () => {
                 className={styles.dropdownTrigger}
                 onClick={() => setIsSortOpen((prev) => !prev)}
                 aria-label="Sort"
+                aria-expanded={isSortOpen}
+                aria-haspopup="menu"
+                aria-controls="sort-menu"
               >
                 <span className={styles.dropdownTriggerLabel}>
                   {sortOption === "name-asc" && "Name (A-Z)"}
@@ -161,7 +168,7 @@ const ProductsPage: React.FC = () => {
                 <ChevronDownIcon size={14} />
               </button>
               {isSortOpen && (
-                <div className={styles.dropdownMenu}>
+                <div id="sort-menu" className={styles.dropdownMenu} role="menu">
                   {[
                     { value: "name-asc", label: "Name (A-Z)" },
                     { value: "name-desc", label: "Name (Z-A)" },
