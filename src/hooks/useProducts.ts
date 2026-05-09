@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { ProductData } from "@/lib/types";
 
 interface UseProductsParams {
@@ -35,11 +35,12 @@ const useProducts = (params: UseProductsParams = {}): UseProductsResult => {
   const [products, setProducts] = useState<ProductData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const previousProductsRef = useRef<ProductData[]>([]);
 
   const deleteProduct = useCallback((id: string) => {
+    let previousProducts: ProductData[] = [];
+
     setProducts((currentProducts) => {
-      previousProductsRef.current = currentProducts;
+      previousProducts = currentProducts;
       return currentProducts.filter((p) => p.id !== id);
     });
 
@@ -49,9 +50,31 @@ const useProducts = (params: UseProductsParams = {}): UseProductsResult => {
       })
       .catch((err) => {
         console.error("Delete error:", err);
-        setProducts(previousProductsRef.current);
+        setProducts(previousProducts);
       });
   }, []);
+
+  const fetchProducts = useCallback(async (signal?: AbortSignal) => {
+    setIsLoading(true);
+    setError(null);
+    const url = buildUrl(search, status, sort, order);
+
+    try {
+      const response = await fetch(url, { credentials: "include", signal });
+      if (!response.ok) {
+        throw new Error(`Server responded with status ${response.status}`);
+      }
+      const data: ProductData[] = await response.json();
+      if (signal?.aborted) return;
+      setProducts(data);
+      setIsLoading(false);
+    } catch (err) {
+      if (signal?.aborted) return;
+      console.error("Failed to fetch products", err);
+      setError(err instanceof Error ? err.message : "Unknown error");
+      setIsLoading(false);
+    }
+  }, [search, status, sort, order]);
 
   const addProduct = useCallback(
     async (newProductData: Omit<ProductData, "id">) => {
@@ -65,14 +88,14 @@ const useProducts = (params: UseProductsParams = {}): UseProductsResult => {
 
         if (!response.ok) throw new Error("Failed to add product");
 
-        const savedProduct = await response.json();
-        setProducts((prev) => [savedProduct, ...prev]);
+        await response.json();
+        await fetchProducts();
       } catch (err) {
         console.error("Add product error:", err);
         throw err;
       }
     },
-    []
+    [fetchProducts]
   );
 
   const updateProduct = useCallback(
@@ -87,48 +110,21 @@ const useProducts = (params: UseProductsParams = {}): UseProductsResult => {
 
         if (!response.ok) throw new Error("Failed to update product");
 
-        const updatedProduct = await response.json();
-        setProducts((prev) =>
-          prev.map((p) => (p.id === id ? updatedProduct : p))
-        );
+        await response.json();
+        await fetchProducts();
       } catch (err) {
         console.error("Update product error:", err);
         throw err;
       }
     },
-    []
+    [fetchProducts]
   );
 
   useEffect(() => {
-    let active = true;
-    setIsLoading(true);
-    setError(null);
-
-    const url = buildUrl(search, status, sort, order);
-
-    fetch(url, { credentials: "include" })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Server responded with status ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data: ProductData[]) => {
-        if (!active) return;
-        setProducts(data);
-        setIsLoading(false);
-      })
-      .catch((err: Error) => {
-        if (!active) return;
-        console.error("Failed to fetch products", err);
-        setError(err.message ?? "Unknown error");
-        setIsLoading(false);
-      });
-
-    return () => {
-      active = false;
-    };
-  }, [search, status, sort, order]);
+    const controller = new AbortController();
+    Promise.resolve().then(() => fetchProducts(controller.signal));
+    return () => controller.abort();
+  }, [fetchProducts]);
 
   return { products, isLoading, error, deleteProduct, addProduct, updateProduct };
 };

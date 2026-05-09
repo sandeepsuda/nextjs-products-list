@@ -3,6 +3,27 @@ import connectDB from "@/lib/db";
 import Product from "@/lib/models/Product";
 import { verifySession } from "@/lib/auth";
 
+interface ProductDTO {
+  id: string;
+  name: string;
+  category: string;
+  quantity: number;
+  price: number;
+}
+
+interface LeanProduct {
+  _id: string | { toString(): string };
+  name: string;
+  category: string;
+  quantity: number;
+  price: number;
+}
+
+interface ProductQuery {
+  $or?: Array<{ name?: RegExp; category?: RegExp }>;
+  quantity?: { $lt?: number; $gt?: number; $gte?: number; $lte?: number };
+}
+
 export async function GET(request: NextRequest) {
   const session = await verifySession();
   if (!session) {
@@ -17,7 +38,7 @@ export async function GET(request: NextRequest) {
     const sort = searchParams.get("sort");
     const order = searchParams.get("order");
 
-    const query: Record<string, any> = {};
+    const query: ProductQuery = {};
 
     if (search) {
       const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -30,7 +51,7 @@ export async function GET(request: NextRequest) {
     } else if (status === "medium-stock") {
       query.quantity = { $gte: 15, $lte: 30 };
     } else if (status === "in-stock") {
-      query.quantity = { $gte: 30 };
+      query.quantity = { $gt: 30 };
     }
 
     let productQuery = Product.find(query);
@@ -44,7 +65,7 @@ export async function GET(request: NextRequest) {
     }
 
     const products = await productQuery.lean();
-    const mapped = products.map((p: any) => ({
+    const mapped: ProductDTO[] = products.map((p: LeanProduct): ProductDTO => ({
       id: p._id.toString(),
       name: p.name,
       category: p.category,
@@ -52,8 +73,9 @@ export async function GET(request: NextRequest) {
       price: p.price,
     }));
     return NextResponse.json(mapped);
-  } catch (error: any) {
-    console.error("API Server Error:", error.message);
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("API Server Error:", message);
     return NextResponse.json(
       { error: "Failed to fetch products" },
       { status: 500 }
@@ -69,22 +91,28 @@ export async function POST(request: NextRequest) {
 
   try {
     await connectDB();
-    const body = await request.json();
+    const body = await request.json() as {
+      name: string;
+      category: string;
+      quantity: number;
+      price: number;
+    };
     const { name, category, quantity, price } = body;
 
     const newProduct = new Product({ name, category, quantity, price });
     const savedProduct = await newProduct.save();
-    const mapped = {
-      id: (savedProduct as any)._id.toString(),
+    const mapped: ProductDTO = {
+      id: savedProduct._id.toString(),
       name: savedProduct.name,
       category: savedProduct.category,
       quantity: savedProduct.quantity,
       price: savedProduct.price,
     };
     return NextResponse.json(mapped, { status: 201 });
-  } catch (error: any) {
-    console.error("API Server Error:", error.message);
-    if (error?.name === "ValidationError" || error?.name === "CastError") {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("API Server Error:", message);
+    if (err instanceof Error && (err.name === "ValidationError" || err.name === "CastError")) {
       return NextResponse.json(
         { error: "Failed to create product. Ensure all fields are valid." },
         { status: 400 }

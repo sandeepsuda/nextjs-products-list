@@ -39,16 +39,16 @@ export async function PUT(
     }
 
     const mapped = {
-      id: (updatedProduct as any)._id.toString(),
+      id: updatedProduct._id.toString(),
       name: updatedProduct.name,
       category: updatedProduct.category,
       quantity: updatedProduct.quantity,
       price: updatedProduct.price,
     };
     return NextResponse.json(mapped);
-  } catch (error: any) {
-    console.error("API Server Error:", error.message);
-    if (error?.name === "ValidationError" || error?.name === "CastError") {
+  } catch (error: unknown) {
+    console.error("API Server Error:", error instanceof Error ? error.message : String(error));
+    if (error instanceof Error && (error.name === "ValidationError" || error.name === "CastError")) {
       return NextResponse.json(
         { error: "Failed to update product. Ensure all fields are valid." },
         { status: 400 }
@@ -90,8 +90,8 @@ export async function DELETE(
     }
 
     return new NextResponse(null, { status: 204 });
-  } catch (error: any) {
-    console.error("API Server Error:", error.message);
+  } catch (error: unknown) {
+    console.error("API Server Error:", error instanceof Error ? error.message : String(error));
     return NextResponse.json(
       { error: "Failed to delete product" },
       { status: 500 }

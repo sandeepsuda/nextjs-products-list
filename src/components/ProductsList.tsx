@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import InventoryIcon from "@/components/icons/InventoryIcon";
 import ChevronLeftIcon from "@/components/icons/ChevronLeftIcon";
 import ChevronRightIcon from "@/components/icons/ChevronRightIcon";
@@ -33,10 +33,6 @@ const ProductsList: React.FC<ProductsListProps> = ({
     displayPage * rowsPerPage,
     displayPage * rowsPerPage + rowsPerPage
   );
-
-  useEffect(() => {
-    setPage(0);
-  }, [products.length]);
 
   const handlePrev = () => setPage((p) => Math.max(0, p - 1));
   const handleNext = () => setPage((p) => Math.min(maxPage, p + 1));
@@ -131,6 +127,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
 
       <div className={styles.pagination}>
         <button
+          type="button"
           className={styles.pageBtn}
           onClick={handlePrev}
           disabled={displayPage === 0}
@@ -142,6 +139,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
           Page {displayPage + 1} of {maxPage + 1}
         </span>
         <button
+          type="button"
           className={styles.pageBtn}
           onClick={handleNext}
           disabled={displayPage >= maxPage}

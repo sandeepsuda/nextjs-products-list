@@ -38,8 +38,11 @@
   white-space: nowrap;
 }
 
-.addBtn:hover {
+.addBtn:hover,
+.addBtn:focus-visible {
   background: #F5D0C5;
+  outline: 2px solid #8B5A3C;
+  outline-offset: 2px;
 }
 
 .errorBanner {
@@ -138,9 +141,12 @@
   white-space: nowrap;
 }
 
-.dropdownTrigger:hover {
+.dropdownTrigger:hover,
+.dropdownTrigger:focus-visible {
   border-color: #F5D0C5;
   background: #FFF5ED;
+  outline: 2px solid #8B5A3C;
+  outline-offset: 2px;
 }
 
 .dropdownTriggerLabel {
@@ -175,9 +181,12 @@
   font-family: inherit;
 }
 
-.dropdownItem:hover {
+.dropdownItem:hover,
+.dropdownItem:focus-visible {
   background: #FCE4D6;
   color: #8B5A3C;
+  outline: 2px solid #8B5A3C;
+  outline-offset: -2px;
 }
 
 .dropdownItemActive {

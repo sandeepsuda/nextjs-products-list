@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CloseIcon from "@/components/icons/CloseIcon";
 import type { ProductData } from "@/lib/types";
 import styles from "./ProductModal.module.css";
@@ -12,45 +12,26 @@ interface ProductModalProps {
   product: ProductData | null;
 }
 
-const ProductModal: React.FC<ProductModalProps> = ({
-  open,
+const ProductModalForm: React.FC<Omit<ProductModalProps, "open">> = ({
   onClose,
   onSubmit,
   product,
 }) => {
-  const [name, setName] = useState("");
-  const [category, setCategory] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
+  const [name, setName] = useState(product ? product.name : "");
+  const [category, setCategory] = useState(product ? product.category : "");
+  const [quantity, setQuantity] = useState(
+    product ? product.quantity.toString() : ""
+  );
+  const [price, setPrice] = useState(product ? product.price.toString() : "");
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      if (product) {
-        setName(product.name);
-        setCategory(product.category);
-        setQuantity(product.quantity.toString());
-        setPrice(product.price.toString());
-      } else {
-        setName("");
-        setCategory("");
-        setQuantity("");
-        setPrice("");
-      }
-      setError(null);
-      setIsSaving(false);
-    }
-  }, [open, product]);
-
-  if (!open) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
     const qty = Number(quantity);
-    const prc = parseFloat(price);
+    const prc = Number(price);
 
     if (!name.trim() || !category.trim()) {
       setError("Name and category are required.");
@@ -60,7 +41,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
       setError("Quantity must be a non-negative whole number.");
       return;
     }
-    if (Number.isNaN(prc) || prc < 0) {
+    if (!Number.isFinite(prc) || prc < 0) {
       setError("Price must be a non-negative number.");
       return;
     }
@@ -76,13 +57,19 @@ const ProductModal: React.FC<ProductModalProps> = ({
   };
 
   return (
-    <div className={styles.backdrop} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+    <div className={styles.backdrop} onClick={() => !isSaving && onClose()}>
+      <div
+        className={styles.modal}
+        onClick={(e) => e.stopPropagation()}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="product-modal-title"
+      >
         <div className={styles.header}>
-          <h3 className={styles.title}>
+          <h3 id="product-modal-title" className={styles.title}>
             {product ? "Edit Product" : "Add Product"}
           </h3>
-          <button className={styles.closeBtn} onClick={onClose} type="button">
+          <button className={styles.closeBtn} onClick={() => !isSaving && onClose()} type="button" disabled={isSaving} aria-disabled={isSaving}>
             <CloseIcon size={20} />
           </button>
         </div>
@@ -151,7 +138,7 @@ const ProductModal: React.FC<ProductModalProps> = ({
             <button
               type="button"
               className={styles.cancelBtn}
-              onClick={onClose}
+              onClick={() => !isSaving && onClose()}
               disabled={isSaving}
             >
               Cancel
@@ -164,6 +151,11 @@ const ProductModal: React.FC<ProductModalProps> = ({
       </div>
     </div>
   );
+};
+
+const ProductModal: React.FC<ProductModalProps> = (props) => {
+  if (!props.open) return null;
+  return <ProductModalForm key={props.product?.id ?? "new"} {...props} />;
 };
 
 export default ProductModal;
