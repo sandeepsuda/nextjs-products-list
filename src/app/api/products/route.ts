@@ -41,6 +41,12 @@ export async function GET(request: NextRequest) {
     const query: ProductQuery = {};
 
     if (search) {
+      if (search.length > 100) {
+        return NextResponse.json(
+          { error: "Search term too long" },
+          { status: 400 },
+        );
+      }
       const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       const searchRegex = new RegExp(escapedSearch, "i");
       query.$or = [{ name: searchRegex }, { category: searchRegex }];
@@ -115,11 +121,16 @@ export async function POST(request: NextRequest) {
       typeof name !== "string" ||
       typeof category !== "string" ||
       typeof quantity !== "number" ||
-      typeof price !== "number"
+      typeof price !== "number" ||
+      quantity < 0 ||
+      price <= 0
     ) {
       return NextResponse.json(
-        { error: "Invalid or missing fields: name(string), category(string), quantity(number), price(number)" },
-        { status: 400 }
+        {
+          error:
+            "Invalid or missing fields: name(string), category(string), quantity(number >= 0), price(number > 0)",
+        },
+        { status: 400 },
       );
     }
 

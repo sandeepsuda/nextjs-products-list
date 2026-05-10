@@ -40,10 +40,12 @@ export async function PUT(
       typeof name !== "string" ||
       typeof category !== "string" ||
       typeof quantity !== "number" ||
-      typeof price !== "number"
+      typeof price !== "number" ||
+      quantity < 0 ||
+      price <= 0
     ) {
       return NextResponse.json(
-        { error: "Invalid or missing fields: name(string), category(string), quantity(number), price(number)" },
+        { error: "Invalid or missing fields: name(string), category(string), quantity(number >= 0), price(number > 0)" },
         { status: 400 }
       );
     }
