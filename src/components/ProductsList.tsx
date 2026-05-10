@@ -34,8 +34,8 @@ const ProductsList: React.FC<ProductsListProps> = ({
     displayPage * rowsPerPage + rowsPerPage
   );
 
-  const handlePrev = () => setPage((p) => Math.max(0, p - 1));
-  const handleNext = () => setPage((p) => Math.min(maxPage, p + 1));
+  const handlePrev = () => setPage(Math.max(0, displayPage - 1));
+  const handleNext = () => setPage(Math.min(maxPage, displayPage + 1));
 
   if (isLoading) {
     return (
@@ -44,12 +44,12 @@ const ProductsList: React.FC<ProductsListProps> = ({
           <table className={styles.table}>
             <thead>
               <tr className={styles.headerRow}>
-                <th className={styles.th}>Product</th>
-                <th className={styles.th}>Category</th>
-                <th className={styles.th}>Quantity</th>
-                <th className={styles.th}>Status</th>
-                <th className={`${styles.th} ${styles.right}`}>Price</th>
-                <th className={`${styles.th} ${styles.right}`}>Actions</th>
+                <th scope="col" className={styles.th}>Product</th>
+                <th scope="col" className={styles.th}>Category</th>
+                <th scope="col" className={styles.th}>Quantity</th>
+                <th scope="col" className={styles.th}>Status</th>
+                <th scope="col" className={`${styles.th} ${styles.right}`}>Price</th>
+                <th scope="col" className={`${styles.th} ${styles.right}`}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -100,12 +100,12 @@ const ProductsList: React.FC<ProductsListProps> = ({
         <table className={styles.table}>
           <thead>
             <tr className={styles.headerRow}>
-              <th className={styles.th}>Product</th>
-              <th className={styles.th}>Category</th>
-              <th className={styles.th}>Quantity</th>
-              <th className={styles.th}>Status</th>
-              <th className={`${styles.th} ${styles.right}`}>Price</th>
-              <th className={`${styles.th} ${styles.right}`}>Actions</th>
+              <th scope="col" className={styles.th}>Product</th>
+              <th scope="col" className={styles.th}>Category</th>
+              <th scope="col" className={styles.th}>Quantity</th>
+              <th scope="col" className={styles.th}>Status</th>
+              <th scope="col" className={`${styles.th} ${styles.right}`}>Price</th>
+              <th scope="col" className={`${styles.th} ${styles.right}`}>Actions</th>
             </tr>
           </thead>
           <tbody>

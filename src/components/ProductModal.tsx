@@ -69,7 +69,7 @@ const ProductModalForm: React.FC<Omit<ProductModalProps, "open">> = ({
           <h3 id="product-modal-title" className={styles.title}>
             {product ? "Edit Product" : "Add Product"}
           </h3>
-          <button className={styles.closeBtn} onClick={() => !isSaving && onClose()} type="button" disabled={isSaving} aria-disabled={isSaving}>
+          <button aria-label="Close product modal" className={styles.closeBtn} onClick={() => !isSaving && onClose()} type="button" disabled={isSaving} aria-disabled={isSaving}>
             <CloseIcon size={20} />
           </button>
         </div>

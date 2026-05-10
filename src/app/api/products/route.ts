@@ -91,13 +91,37 @@ export async function POST(request: NextRequest) {
 
   try {
     await connectDB();
-    const body = await request.json() as {
-      name: string;
-      category: string;
-      quantity: number;
-      price: number;
-    };
+    
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json(
+        { error: "Invalid JSON payload" },
+        { status: 400 }
+      );
+    }
+
+    if (!body || typeof body !== "object") {
+      return NextResponse.json(
+        { error: "Invalid request body" },
+        { status: 400 }
+      );
+    }
+
     const { name, category, quantity, price } = body;
+
+    if (
+      typeof name !== "string" ||
+      typeof category !== "string" ||
+      typeof quantity !== "number" ||
+      typeof price !== "number"
+    ) {
+      return NextResponse.json(
+        { error: "Invalid or missing fields: name(string), category(string), quantity(number), price(number)" },
+        { status: 400 }
+      );
+    }
 
     const newProduct = new Product({ name, category, quantity, price });
     const savedProduct = await newProduct.save();
