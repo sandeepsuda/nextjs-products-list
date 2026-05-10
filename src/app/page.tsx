@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { verifySession } from "@/lib/auth";
-import styles from "./page.module.css";
-import LogoutButton from "./logout-button";
+import DashboardShell from "@/components/DashboardShell";
+import ProductsPage from "@/components/ProductsPage";
 
 export default async function Dashboard() {
   const session = await verifySession();
@@ -10,16 +10,8 @@ export default async function Dashboard() {
   }
 
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <div className={styles.intro}>
-          <h1>Hello {session.username}!</h1>
-          <p>Welcome to your products list dashboard.</p>
-          <div className={styles.ctas}>
-            <LogoutButton />
-          </div>
-        </div>
-      </main>
-    </div>
+    <DashboardShell username={session.username}>
+      <ProductsPage />
+    </DashboardShell>
   );
 }
