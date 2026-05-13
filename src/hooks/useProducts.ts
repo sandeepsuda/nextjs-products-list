@@ -62,7 +62,18 @@ const useProducts = (params: UseProductsParams = {}): UseProductsResult => {
     try {
       const response = await fetch(url, { credentials: "include", signal });
       if (!response.ok) {
-        throw new Error(`Server responded with status ${response.status}`);
+        let errorMessage = `Server responded with status ${response.status}`;
+        try {
+          const errorData = await response.json();
+          if (errorData.details) {
+            errorMessage = errorData.details;
+          } else if (errorData.error) {
+            errorMessage = errorData.error;
+          }
+        } catch {
+          // Fallback to default message if JSON parsing fails
+        }
+        throw new Error(errorMessage);
       }
       const data: ProductData[] = await response.json();
       if (signal?.aborted) return;

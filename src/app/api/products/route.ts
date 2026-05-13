@@ -82,10 +82,13 @@ export async function GET(request: NextRequest) {
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("API Server Error:", message);
-    return NextResponse.json(
-      { error: "Failed to fetch products" },
-      { status: 500 }
-    );
+    
+    const errorResponse = {
+      error: "Failed to fetch products",
+      ...(message.includes("MONGODB_URI") && { details: message })
+    };
+
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 }
 

@@ -78,18 +78,23 @@ export async function PUT(
       price: updatedProduct.price,
     };
     return NextResponse.json(mapped);
-  } catch (error: unknown) {
-    console.error("API Server Error:", error instanceof Error ? error.message : String(error));
-    if (error instanceof Error && (error.name === "ValidationError" || error.name === "CastError")) {
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("API Server Error:", message);
+    
+    if (err instanceof Error && (err.name === "ValidationError" || err.name === "CastError")) {
       return NextResponse.json(
         { error: "Failed to update product. Ensure all fields are valid." },
         { status: 400 }
       );
     }
-    return NextResponse.json(
-      { error: "Failed to update product" },
-      { status: 500 }
-    );
+
+    const errorResponse = {
+      error: "Failed to update product",
+      ...(message.includes("MONGODB_URI") && { details: message })
+    };
+
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 }
 
@@ -122,11 +127,15 @@ export async function DELETE(
     }
 
     return new NextResponse(null, { status: 204 });
-  } catch (error: unknown) {
-    console.error("API Server Error:", error instanceof Error ? error.message : String(error));
-    return NextResponse.json(
-      { error: "Failed to delete product" },
-      { status: 500 }
-    );
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error("API Server Error:", message);
+
+    const errorResponse = {
+      error: "Failed to delete product",
+      ...(message.includes("MONGODB_URI") && { details: message })
+    };
+
+    return NextResponse.json(errorResponse, { status: 500 });
   }
 }
