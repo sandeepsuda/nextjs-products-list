@@ -31,6 +31,7 @@ export default function LoginForm() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Enter your username"
+              autoComplete="username"
               required
               className={styles.input}
             />
@@ -49,6 +50,7 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
+              autoComplete="current-password"
               required
               className={styles.input}
             />
@@ -56,6 +58,8 @@ export default function LoginForm() {
               type="button"
               className={styles.eyeButton}
               onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-pressed={showPassword}
             >
               {showPassword ? <EyeOffIcon /> : <EyeIcon />}
             </button>
