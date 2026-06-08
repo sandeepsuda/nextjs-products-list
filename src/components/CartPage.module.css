@@ -1,0 +1,375 @@
+.page {
+  width: 100%;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #888888;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.breadcrumb a {
+  color: #888888;
+  text-decoration: none;
+}
+
+.breadcrumb a:hover,
+.breadcrumb a:focus-visible {
+  color: #8B5A3C;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.title {
+  color: #333333;
+  font-size: 1.75rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.leftColumn {
+  min-width: 0;
+}
+
+.card,
+.summaryCard,
+.emptyCard {
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.table th {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  color: #4A4A4A;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  color: #333333;
+  font-weight: 700;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.right {
+  text-align: right;
+}
+
+.center {
+  text-align: center;
+}
+
+.productCell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #FCE4D6;
+  color: #8B5A3C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.name,
+.stock {
+  display: block;
+}
+
+.name {
+  color: #333333;
+  font-weight: 800;
+}
+
+.stock {
+  width: fit-content;
+  margin-top: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 9999px;
+  background: rgba(22, 163, 74, 0.08);
+  color: #16A34A;
+  font-size: 0.6875rem;
+  font-weight: 800;
+}
+
+.removeBtn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #888888;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.removeBtn:hover,
+.removeBtn:focus-visible {
+  background: rgba(239, 68, 68, 0.08);
+  color: #DC2626;
+  outline: 2px solid #DC2626;
+  outline-offset: 1px;
+}
+
+.continueBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  height: 38px;
+  margin-top: 1rem;
+  padding: 0 1rem;
+  border: 1.5px solid #CCCCCC;
+  border-radius: 8px;
+  background: #FFFFFF;
+  color: #333333;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.continueBtn:hover,
+.continueBtn:focus-visible {
+  background: #FFF5ED;
+  border-color: #F5D0C5;
+  outline: 2px solid #8B5A3C;
+  outline-offset: 2px;
+}
+
+.summaryCard {
+  padding: 1.25rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.summaryCard h3 {
+  color: #333333;
+  font-size: 0.9375rem;
+  font-weight: 900;
+  margin-bottom: 1.25rem;
+}
+
+.summaryRows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.summaryRow,
+.totalRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.summaryRow {
+  color: #333333;
+  font-size: 0.875rem;
+}
+
+.totalRow {
+  color: #A63F12;
+  font-size: 1.25rem;
+  font-weight: 900;
+  margin: 1rem 0 1.25rem;
+}
+
+.checkoutBtn,
+.primaryBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  background: #A63F12;
+  color: #FFFFFF;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.checkoutBtn {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.checkoutBtn:hover,
+.checkoutBtn:focus-visible,
+.primaryBtn:hover,
+.primaryBtn:focus-visible {
+  background: #8B320C;
+  outline: 2px solid #8B5A3C;
+  outline-offset: 2px;
+}
+
+.assurance {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  color: #555555;
+  font-size: 0.8125rem;
+  font-weight: 700;
+}
+
+.assurance span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.emptyCard {
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+}
+
+.emptyIcon {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: #FCE4D6;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.emptyCard h2 {
+  color: #333333;
+  font-size: 1.5rem;
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+.emptyCard p {
+  color: #666666;
+  font-size: 0.9375rem;
+  margin-bottom: 1.5rem;
+}
+
+.primaryBtn {
+  min-width: 150px;
+  padding: 0 1rem;
+}
+
+.skeletonHeader {
+  width: 180px;
+  height: 30px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.skeletonRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.skeletonAvatar,
+.skeletonLine,
+.skeletonLineShort,
+.skeletonHeader {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeletonAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.skeletonLine,
+.skeletonLineShort {
+  height: 14px;
+  border-radius: 4px;
+}
+
+.skeletonLine {
+  flex: 1;
+}
+
+.skeletonLineShort {
+  width: 90px;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+@media (max-width: 920px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryCard {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.875rem;
+  }
+}
+

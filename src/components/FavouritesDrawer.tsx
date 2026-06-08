@@ -25,12 +25,34 @@ export default function FavouritesDrawer({ isOpen, onClose }: FavouritesDrawerPr
   // Fetch all products and filter by favouriteIds whenever drawer opens or ids change
   useEffect(() => {
     if (!isOpen) return;
-    if (favouriteIds.length === 0) { setProducts([]); return; }
-    setIsLoading(true);
-    fetch("/api/products", { credentials: "include" })
-      .then((r) => r.json())
-      .then((all: ProductData[]) => setProducts(all.filter((p) => favouriteIds.includes(p.id))))
-      .finally(() => setIsLoading(false));
+    if (favouriteIds.length === 0) {
+      Promise.resolve().then(() => {
+        setProducts([]);
+        setIsLoading(false);
+      });
+      return;
+    }
+
+    const controller = new AbortController();
+
+    Promise.resolve().then(() => {
+      if (controller.signal.aborted) return;
+      setIsLoading(true);
+      fetch("/api/products", { credentials: "include", signal: controller.signal })
+        .then((r) => r.json())
+        .then((all: ProductData[]) => setProducts(all.filter((p) => favouriteIds.includes(p.id))))
+        .catch((error) => {
+          if (!controller.signal.aborted) {
+            console.error("Favourites products error:", error);
+            setProducts([]);
+          }
+        })
+        .finally(() => {
+          if (!controller.signal.aborted) setIsLoading(false);
+        });
+    });
+
+    return () => controller.abort();
   }, [isOpen, favouriteIds]);
 
   // Close on outside click

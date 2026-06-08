@@ -1,0 +1,40 @@
+.stepper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 104px;
+  height: 36px;
+  border: 1.5px solid #E5E5E5;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.stepBtn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  background: transparent;
+  color: #4A4A4A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.stepBtn:hover,
+.stepBtn:focus-visible {
+  background: #FFF5ED;
+  color: #8B5A3C;
+  outline: none;
+}
+
+.quantity {
+  min-width: 26px;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #333333;
+}
+

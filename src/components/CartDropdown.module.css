@@ -1,0 +1,255 @@
+.dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 46px;
+  width: min(360px, calc(100vw - 2rem));
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.1);
+  z-index: 120;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1rem 0.75rem;
+  color: #333333;
+  font-size: 0.9375rem;
+  font-weight: 800;
+}
+
+.headerLink {
+  color: #A63F12;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+
+.body {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0.75rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 10px;
+}
+
+.item:hover {
+  background: rgba(252, 228, 214, 0.32);
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #FCE4D6;
+  color: #8B5A3C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.name {
+  color: #333333;
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  color: #666666;
+  font-size: 0.75rem;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.price {
+  color: #333333;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.removeBtn {
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #888888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.removeBtn:hover,
+.removeBtn:focus-visible {
+  background: rgba(239, 68, 68, 0.08);
+  color: #DC2626;
+  outline: 2px solid #DC2626;
+  outline-offset: 1px;
+}
+
+.footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0.875rem 1rem 1rem;
+}
+
+.subtotal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #333333;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 0.875rem;
+}
+
+.drawerBtn,
+.cartLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 42px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.drawerBtn {
+  border: none;
+  background: #A63F12;
+  color: #FFFFFF;
+  margin-bottom: 0.5rem;
+}
+
+.drawerBtn:hover,
+.drawerBtn:focus-visible {
+  background: #8B320C;
+  outline: 2px solid #8B5A3C;
+  outline-offset: 2px;
+}
+
+.cartLink {
+  border: 1.5px solid #E5E5E5;
+  background: #FFFFFF;
+  color: #A63F12;
+  text-decoration: none;
+}
+
+.cartLink:hover,
+.cartLink:focus-visible {
+  background: #FFF5ED;
+  border-color: #F5D0C5;
+  outline: 2px solid #8B5A3C;
+  outline-offset: 2px;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 2.5rem 1rem;
+  color: #CCCCCC;
+  text-align: center;
+}
+
+.empty p {
+  color: #555555;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.skeletonItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+}
+
+.skeletonAvatar,
+.skeletonLine,
+.skeletonLineShort {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+.skeletonAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+}
+
+.skeletonLines {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skeletonLine,
+.skeletonLineShort {
+  height: 14px;
+  border-radius: 4px;
+}
+
+.skeletonLine {
+  width: 72%;
+}
+
+.skeletonLineShort {
+  width: 42%;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+@media (max-width: 560px) {
+  .dropdown {
+    right: 0;
+  }
+}
+

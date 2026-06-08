@@ -5,11 +5,14 @@ import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@/components/icons/EditIcon";
 import TrashIcon from "@/components/icons/TrashIcon";
 import HeartIcon from "@/components/icons/HeartIcon";
+import CartIcon from "@/components/icons/CartIcon";
 import { getStatus } from "@/lib/helpers/productHelpers";
 import ConfirmModal from "./ConfirmModal";
 import { useModal } from "@/hooks/useModal";
 import { toggleFavourite, selectIsFavourite } from "@/store/favouritesSlice";
+import { addToCart } from "@/store/cartSlice";
 import type { RootState } from "@/store/store";
+import type { ProductData } from "@/lib/types";
 import styles from "./ProductRow.module.css";
 
 interface ProductRowProps {
@@ -20,6 +23,7 @@ interface ProductRowProps {
   price: number;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  onAddToCart: (product: ProductData) => void;
 }
 
 const ProductRow: React.FC<ProductRowProps> = ({
@@ -30,6 +34,7 @@ const ProductRow: React.FC<ProductRowProps> = ({
   price,
   onDelete,
   onEdit,
+  onAddToCart,
 }) => {
   const { isOpen: showDeleteModal, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
@@ -40,6 +45,11 @@ const ProductRow: React.FC<ProductRowProps> = ({
     onDelete(id);
     closeModal();
   }, [id, onDelete, closeModal]);
+
+  const handleAddToCart = useCallback(() => {
+    dispatch(addToCart(id));
+    onAddToCart({ id, name, category, quantity, price });
+  }, [category, dispatch, id, name, onAddToCart, price, quantity]);
 
   const statusClass =
     status.class === "status-low"
@@ -76,6 +86,15 @@ const ProductRow: React.FC<ProductRowProps> = ({
         </td>
         <td className={`${styles.td} ${styles.right}`}>
           <div className={styles.actions}>
+            <button
+              className={styles.cartBtn}
+              onClick={handleAddToCart}
+              title="Add to cart"
+              aria-label={`Add ${name} to cart`}
+            >
+              <CartIcon size={16} />
+              <span>Add to Cart</span>
+            </button>
             <button
               className={`${styles.iconBtn} ${isFavourite ? styles.favourite : ""}`}
               onClick={() => dispatch(toggleFavourite(id))}

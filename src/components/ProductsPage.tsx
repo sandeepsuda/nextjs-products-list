@@ -6,6 +6,7 @@ import PlusIcon from "@/components/icons/PlusIcon";
 import ChevronDownIcon from "@/components/icons/ChevronDownIcon";
 import ProductsList from "./ProductsList";
 import ProductModal from "./ProductModal";
+import CartToast from "./CartToast";
 import useProducts from "@/hooks/useProducts";
 import type { ProductData } from "@/lib/types";
 import styles from "./ProductsPage.module.css";
@@ -16,6 +17,8 @@ const ProductsPage: React.FC = () => {
   const [filterOption, setFilterOption] = useState("all");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductData | null>(null);
+  const [cartToastProduct, setCartToastProduct] = useState<ProductData | null>(null);
+  const [cartToastKey, setCartToastKey] = useState(0);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isSortOpen, setIsSortOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
@@ -73,6 +76,11 @@ const ProductsPage: React.FC = () => {
       await addProduct(productData);
     }
   };
+
+  const handleAddToCartToast = useCallback((product: ProductData) => {
+    setCartToastProduct(product);
+    setCartToastKey((key) => key + 1);
+  }, []);
 
   return (
     <>
@@ -197,6 +205,7 @@ const ProductsPage: React.FC = () => {
         isLoading={isLoading}
         onDelete={deleteProduct}
         onEdit={handleOpenEditModal}
+        onAddToCart={handleAddToCartToast}
       />
 
       <ProductModal
@@ -206,6 +215,14 @@ const ProductsPage: React.FC = () => {
         onSubmit={handleSubmit}
         product={selectedProduct}
       />
+
+      {cartToastProduct && (
+        <CartToast
+          key={`${cartToastProduct.id}-${cartToastKey}`}
+          productName={cartToastProduct.name}
+          onClose={() => setCartToastProduct(null)}
+        />
+      )}
     </>
   );
 };

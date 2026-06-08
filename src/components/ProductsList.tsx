@@ -13,6 +13,7 @@ interface ProductsListProps {
   isLoading: boolean;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  onAddToCart: (product: ProductData) => void;
 }
 
 const ITEMS_PER_PAGE = 10;
@@ -22,6 +23,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
   isLoading,
   onDelete,
   onEdit,
+  onAddToCart,
 }) => {
   const [page, setPage] = useState(0);
 
@@ -119,6 +121,7 @@ const ProductsList: React.FC<ProductsListProps> = ({
                 price={product.price}
                 onDelete={onDelete}
                 onEdit={onEdit}
+                onAddToCart={onAddToCart}
               />
             ))}
           </tbody>
