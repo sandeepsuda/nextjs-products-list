@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import EditIcon from "@/components/icons/EditIcon";
 import TrashIcon from "@/components/icons/TrashIcon";
+import HeartIcon from "@/components/icons/HeartIcon";
 import { getStatus } from "@/lib/helpers/productHelpers";
 import ConfirmModal from "./ConfirmModal";
 import { useModal } from "@/hooks/useModal";
+import { toggleFavourite, selectIsFavourite } from "@/store/favouritesSlice";
+import type { RootState } from "@/store/store";
 import styles from "./ProductRow.module.css";
 
 interface ProductRowProps {
@@ -28,6 +32,8 @@ const ProductRow: React.FC<ProductRowProps> = ({
   onEdit,
 }) => {
   const { isOpen: showDeleteModal, openModal, closeModal } = useModal();
+  const dispatch = useDispatch();
+  const isFavourite = useSelector((state: RootState) => selectIsFavourite(id)(state));
   const status = getStatus(quantity);
 
   const handleDelete = useCallback(() => {
@@ -70,6 +76,15 @@ const ProductRow: React.FC<ProductRowProps> = ({
         </td>
         <td className={`${styles.td} ${styles.right}`}>
           <div className={styles.actions}>
+            <button
+              className={`${styles.iconBtn} ${isFavourite ? styles.favourite : ""}`}
+              onClick={() => dispatch(toggleFavourite(id))}
+              title={isFavourite ? "Remove from favourites" : "Add to favourites"}
+              aria-label={isFavourite ? "Remove from favourites" : "Add to favourites"}
+              aria-pressed={isFavourite}
+            >
+              <HeartIcon size={18} filled={isFavourite} />
+            </button>
             <button
               className={styles.iconBtn}
               onClick={() => onEdit(id)}

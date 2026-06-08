@@ -113,6 +113,15 @@
   color: #DC2626;
 }
 
+.favourite {
+  color: #E05A2B;
+}
+
+.favourite:hover {
+  background: rgba(224, 90, 43, 0.08);
+  color: #C04820;
+}
+
 @media (max-width: 768px) {
   .td {
     padding: 0.75rem 0.75rem;
